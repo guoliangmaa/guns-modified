@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.stylefeng.guns.modular.system.dao.MeetingapplyMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="cn.stylefeng.guns.modular.system.model.Meetingapply">
+        <id column="id" property="id" />
+        <result column="workerid" property="workerid" />
+        <result column="topic" property="topic" />
+        <result column="documentlink" property="documentlink" />
+        <result column="homeid" property="homeid" />
+        <result column="attendance" property="attendance" />
+        <result column="begintime" property="begintime" />
+        <result column="endtime" property="endtime" />
+        <result column="statusid" property="statusid" />
+        <result column="applytime" property="applytime" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, workerid, topic, documentlink, homeid, attendance, begintime, endtime, statusid, applytime
+    </sql>
+
+</mapper>

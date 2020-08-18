@@ -1,0 +1,39 @@
+@layout("/common/_container.html"){
+<div class="row">
+    <div class="col-sm-12">
+        <div class="ibox float-e-margins">
+            <div class="ibox-title">
+                <h5>预约会议申请审批管理(修改时0位审核中，1位通过审核，2为驳回审核，3为使用中，4为失效)</h5>
+            </div>
+            <div class="ibox-content">
+                <div class="row row-lg">
+                    <div class="col-sm-12">
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <#NameCon id="condition" name="名称" />
+
+                            </div>
+                            <div class="col-sm-3">
+                                <#button name="搜索" icon="fa-search" clickFun="Meetingapply.search()"/>
+                            </div>
+                        </div>
+                        <div class="hidden-xs" id="MeetingapplyTableToolbar" role="group">
+                            @if(shiro.hasPermission("/meetingapply/add")){
+                                <#button name="添加" icon="fa-plus" clickFun="Meetingapply.openAddMeetingapply()"/>
+                            @}
+                            @if(shiro.hasPermission("/meetingapply/update")){
+                                <#button name="修改" icon="fa-edit" clickFun="Meetingapply.openMeetingapplyDetail()" space="true"/>
+                            @}
+                            @if(shiro.hasPermission("/meetingapply/delete")){
+                                <#button name="删除" icon="fa-remove" clickFun="Meetingapply.delete()" space="true"/>
+                            @}
+                        </div>
+                        <#table id="MeetingapplyTable"/>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="${ctxPath}/static/modular/meetingapply/meetingapply/meetingapply.js"></script>
+@}

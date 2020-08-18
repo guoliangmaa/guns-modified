@@ -1,0 +1,84 @@
+@layout("/common/_container.html"){
+<div class="ibox float-e-margins">
+    <div class="ibox-content">
+        <div class="form-horizontal">
+
+            <div class="row">
+                <div class="col-sm-6 b-r">
+                    <div style="display: none">
+                            <#input id="id" name="id" value="${item.id}" underline="true"/></div>
+                            <#input id="homeno" name="房间号（名称）" value="${item.homeno}" underline="true"/>
+                            <#input id="address" name="所在地点" value="${item.address}" underline="true"/>
+                            <#input id="space" name="可容纳人数" value="${item.space}" underline="true"/>
+                </div>
+
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">负责人</label>
+                        <div class="col-sm-9">
+                            <select class="form-control" id="hosterid"  type="text"></select>
+                        </div>
+                    </div>
+                    <div class="hr-line-dashed"></div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">会议室类型</label>
+                        <div class="col-sm-9">
+                            <select class="form-control" id="hometype"  type="text"></select>
+                        </div>
+                    </div>
+                    <div class="hr-line-dashed"></div>
+
+                </div>
+            </div>
+
+            <div class="row btn-group-m-t">
+                <div class="col-sm-10">
+                    <#button btnCss="info" name="提交" id="ensure" icon="fa-check" clickFun="HomesInfoDlg.editSubmit()"/>
+                    <#button btnCss="danger" name="取消" id="cancel" icon="fa-eraser" clickFun="HomesInfoDlg.close()"/>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+<script src="${ctxPath}/static/js/jquery.min.js"></script>
+<script src="${ctxPath}/static/modular/homes/homes/homes_info.js"></script>
+<script>
+    $(function () {
+        getAllUser();
+        getAllTypes();
+    });
+
+    function getAllUser() {
+        $.ajax({
+            url: '${ctxPath}/mgr/list',
+            success: function (data) {
+                console.log(data)
+                let arr = [];
+                data.map(item => {
+                    let dom = '<option value="'+ item.id+'">'+ item.account+'</option>'
+                    arr.push(dom)
+                })
+                arr.join('')
+                $('#hosterid').html(arr)
+            }
+        })
+    }
+
+    function getAllTypes() {
+        $.ajax({
+            url: '${ctxPath}/homestypes/list',
+            success: function (data) {
+                console.log(data)
+                let arr = [];
+                data.map(item => {
+                    let dom = '<option value="'+ item.id+'">'+ item.typename+'</option>'
+                    arr.push(dom)
+                })
+                arr.join('')
+                $('#hometype').html(arr)
+            }
+        })
+    }
+</script>
+@}

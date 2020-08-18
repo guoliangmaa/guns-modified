@@ -1,0 +1,97 @@
+@layout("/common/_container.html"){
+<div class="ibox float-e-margins">
+    <div class="ibox-content">
+        <div class="form-horizontal">
+
+            <div class="row">
+                <div class="col-sm-6 b-r">
+                    <div style="display: none">
+                        <#input id="id" name="" underline="true"/>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">所属会议室</label>
+                        <div class="col-sm-9">
+                            <select class="form-control" id="mettingid" type="text"></select>
+                        </div>
+                    </div>
+                    <div class="hr-line-dashed"></div>
+                </div>
+
+                <div class="col-sm-6">
+                    <div class="form-control">
+                        <label for="equipmentid">选择设备</label>
+                        <div id="equipmentid">
+
+                        </div>
+                    </div>
+                    <div class="hr-line-dashed"></div>
+                </div>
+            </div>
+
+            <div class="row btn-group-m-t">
+                <div class="col-sm-10">
+                    <#button btnCss="info" name="提交" id="ensure" icon="fa-check"
+                    clickFun="EquipmentapplyInfoDlg.addSubmit()"/>
+                    <#button btnCss="danger" name="取消" id="cancel" icon="fa-eraser"
+                    clickFun="EquipmentapplyInfoDlg.close()"/>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+<script src="${ctxPath}/static/js/jquery.min.js"></script>
+<script src="${ctxPath}/static/modular/equipmentapply/equipmentapply/equipmentapply_info.js"></script>
+<script>
+
+    let _data = [];
+    $(function () {
+        findAllMeetingApply()
+    })
+
+    function findAllMeetingApply() {
+        $.ajax({
+            method: 'get',
+            url: '${ctxPath}/meetingapply/_list',
+            success: function (data) {
+                console.log(data)
+                let arr = [];
+                data.map((item, index) => {
+                    let dom = '<option index="' + index + '" value="' + item.id + '">' + item.account + ' 发起的 ' + item.topic + '</option>'
+                    arr.push(dom)
+                })
+                arr.join('')
+                $('#mettingid').html(arr)
+                _data = data
+                findEquipments(data[0]._homeid)
+            }
+        })
+    }
+
+    $('#mettingid').change(function () {
+        // console.log(2333)
+        let val = $('#mettingid option:selected').attr('index');
+        console.log(val)
+        findEquipments(_data[val]._homeid)
+    })
+
+    function findEquipments(homeno) {
+        $.ajax({
+            method: 'post',
+            url: '${ctxPath}/equipmentapply/findEquipments?homeno=' + homeno,
+            success: function (data) {
+                let arr = []
+                data.map(item => {
+                    let dom = '<div class="checkbox" >' +
+                        '                            <label><input name="ids" type="checkbox" value="' + item.id + '">' + item.equipmentname + '</label>' +
+                        '                        </div>'
+
+                    arr.push(dom)
+                })
+                arr.join('')
+                $('#equipmentid').html(arr)
+            }
+        })
+    }
+</script>
+@}
