@@ -97,8 +97,14 @@ public class ScheduleController extends BaseController {
             Homes homes = homesService.selectById(schedule.getHomeid());
             convert.replace("homeid",homes.getHomeno());
 
-
-            array.add(convert);
+            //如果加了条件，在这里筛选，如果房间号为该房间号则添加进数组
+            if (condition != null && !condition.equals("")){
+                if (condition.equals(homes.getHomeno())){
+                    array.add(convert);
+                }
+            }else {
+                array.add(convert);
+            }
         }
         return array;
     }

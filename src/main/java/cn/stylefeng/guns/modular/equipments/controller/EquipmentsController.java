@@ -6,6 +6,7 @@ import cn.stylefeng.guns.modular.system.model.Equiptypes;
 import cn.stylefeng.guns.modular.system.model.Homes;
 import cn.stylefeng.roses.core.base.controller.BaseController;
 import com.alibaba.fastjson.JSONArray;
+import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -75,7 +76,11 @@ public class EquipmentsController extends BaseController {
     @RequestMapping(value = "/list")
     @ResponseBody
     public Object list(String condition) {
-        List<Equipments> equipments = equipmentsService.selectList(null);
+        EntityWrapper<Equipments> wrapper = new EntityWrapper<>();
+        if (condition != null && !condition.equals("")){
+            wrapper.like("equipmentname",condition);
+        }
+        List<Equipments> equipments = equipmentsService.selectList(wrapper);
         JSONArray array = new JSONArray();
         for (Equipments equipment : equipments) {
             Map<String, Object> convert = BeanToMap.convert(equipment);

@@ -1,6 +1,7 @@
 package cn.stylefeng.guns.modular.homestypes.controller;
 
 import cn.stylefeng.roses.core.base.controller.BaseController;
+import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -60,7 +61,11 @@ public class HomestypesController extends BaseController {
     @RequestMapping(value = "/list")
     @ResponseBody
     public Object list(String condition) {
-        return homestypesService.selectList(null);
+        EntityWrapper<Homestypes> wrapper = new EntityWrapper<>();
+        if (condition != null && !condition.equals("")){
+            wrapper.like("typename",condition);
+        }
+        return homestypesService.selectList(wrapper);
     }
 
     /**

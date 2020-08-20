@@ -87,7 +87,7 @@ public class EquipmentapplyController extends BaseController {
     public Object list(String condition) {
         EntityWrapper<Equipmentapply> wrapper = new EntityWrapper<>();
         JSONArray array = new JSONArray();
-        List<Equipmentapply> equipmentapplyList = equipmentapplyService.selectList(null);
+        List<Equipmentapply> equipmentapplyList = equipmentapplyService.selectList(wrapper);
         for (Equipmentapply equipmentapply : equipmentapplyList) {
             Meetingapply meetingapply = meetingapplyService.selectById(equipmentapply.getMettingid());
             //会议还没结束的话，才显示，其他的都不显示

@@ -1,6 +1,7 @@
 package cn.stylefeng.guns.modular.equiptypes.controller;
 
 import cn.stylefeng.roses.core.base.controller.BaseController;
+import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -60,7 +61,11 @@ public class EquiptypesController extends BaseController {
     @RequestMapping(value = "/list")
     @ResponseBody
     public Object list(String condition) {
-        return equiptypesService.selectList(null);
+        EntityWrapper<Equiptypes> wrapper = new EntityWrapper<>();
+        if (condition != null && !condition.equals("")){
+                wrapper.like("typename",condition);
+        }
+        return equiptypesService.selectList(wrapper);
     }
 
     /**

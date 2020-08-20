@@ -1,11 +1,13 @@
 package cn.stylefeng.guns.modular.homes.controller;
 
 import cn.stylefeng.guns.modular.homestypes.service.IHomestypesService;
+import cn.stylefeng.guns.modular.system.model.Equipments;
 import cn.stylefeng.guns.modular.system.model.Homestypes;
 import cn.stylefeng.guns.modular.system.model.User;
 import cn.stylefeng.guns.modular.system.service.IUserService;
 import cn.stylefeng.roses.core.base.controller.BaseController;
 import com.alibaba.fastjson.JSONArray;
+import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -75,7 +77,11 @@ public class HomesController extends BaseController {
     @RequestMapping(value = "/list")
     @ResponseBody
     public Object list(String condition) {
-        List<Homes> homes = homesService.selectList(null);
+        EntityWrapper<Homes> wrapper = new EntityWrapper<>();
+        if (condition != null && !condition.equals("")){
+            wrapper.like("homeno",condition);
+        }
+        List<Homes> homes = homesService.selectList(wrapper);
         JSONArray array = new JSONArray();
         for (Homes home : homes) {
             Map<String, Object> convert = BeanToMap.convert(home);
